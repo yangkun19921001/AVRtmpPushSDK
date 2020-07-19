@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:live="http://schemas.android.com/apk/res-auto"
+             android:orientation="vertical"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
+
+
+    <com.devyk.av.rtmp.library.widget.AVLiveView
+            android:id="@+id/live"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            live:back="true"
+            live:fps="25"
+            live:sampleRate="44100"
+            live:preview_height="1280"
+            live:preview_width="720"
+    />
+</FrameLayout>
