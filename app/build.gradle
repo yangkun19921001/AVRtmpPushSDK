@@ -64,8 +64,9 @@ dependencies {
     api rootProject.ext.rxs["rxJava"]
     api rootProject.ext.rxs["rxAndroid"]
     api rootProject.ext.rxs["rxpermissions2"]
-    implementation project(path: ':library')
+//    implementation project(path: ':library')
 
+    implementation 'com.devyk.av.rtmp.library:AVRtmpPushSDK:1.0.0'
 
 }
 

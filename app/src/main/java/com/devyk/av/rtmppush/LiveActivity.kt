@@ -4,9 +4,15 @@ import android.content.res.Configuration
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Build
+import android.text.TextUtils
 import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import com.devyk.av.rtmp.library.callback.OnConnectListener
 import com.devyk.av.rtmp.library.camera.Watermark
 import com.devyk.av.rtmp.library.config.AudioConfiguration
@@ -53,6 +59,7 @@ class LiveActivity : BaseActivity<Int>(), OnConnectListener {
     private var isConncet = false
     private lateinit var mSender: RtmpSender
     private lateinit var mPacker: RtmpPacker
+    private var uploadDialog: AlertDialog? = null
 
 
     override fun initListener() {
@@ -60,11 +67,11 @@ class LiveActivity : BaseActivity<Int>(), OnConnectListener {
     }
 
     override fun initData() {
-        //设置 Bitmap 水印 第二个参数如果传 null 那么默认在右下角
-//        live.setWatermark(Watermark(BitmapFactory.decodeResource(resources, R.mipmap.live_logo), null))
+
         //设置文字水印
-        live.setWatermark(Watermark("随播",Color.WHITE,20,null))
+        setWatemark()
     }
+
 
     override fun init() {
         //初始化 RTMP 发送器
@@ -102,6 +109,8 @@ class LiveActivity : BaseActivity<Int>(), OnConnectListener {
 
         mSender.setDataSource(mDataSource)
 
+        initRtmpAddressDialog()
+
     }
 
     override fun onContentViewBefore() {
@@ -131,10 +140,10 @@ class LiveActivity : BaseActivity<Int>(), OnConnectListener {
             return
         }
         isConncet = !isConncet
-        mSender?.connect()
+        uploadDialog?.show()
     }
 
-    public fun camera_change(view: View){
+    public fun camera_change(view: View) {
         live.switchCamera()
     }
 
@@ -178,5 +187,38 @@ class LiveActivity : BaseActivity<Int>(), OnConnectListener {
             progressBar.visibility = View.GONE
             live_icon.setImageDrawable(getDrawable(R.mipmap.live))
         }
+    }
+
+    fun initRtmpAddressDialog() {
+        val inflater = layoutInflater
+        val playView = inflater.inflate(R.layout.address_dialog, findViewById<ViewGroup>(R.id.dialog))
+        var address = playView.findViewById<EditText>(R.id.address)
+        address.setText(mDataSource)
+        val okBtn = playView.findViewById<Button>(R.id.ok)
+        val cancelBtn = playView.findViewById<Button>(R.id.cancel)
+        val uploadBuilder = AlertDialog.Builder(this)
+        uploadBuilder.setTitle("输入推流地址")
+        uploadBuilder.setView(playView)
+        uploadDialog = uploadBuilder.create()
+        okBtn.setOnClickListener {
+            val uploadUrl = address.getText().toString()
+            if (TextUtils.isEmpty(uploadUrl)) {
+                Toast.makeText(applicationContext, "Upload address is empty!", Toast.LENGTH_SHORT).show()
+            } else {
+                //设置 rtmp 地址
+                mSender.setDataSource(uploadUrl)
+                //开始连接
+                mSender.connect()
+            }
+            uploadDialog?.dismiss()
+        }
+        cancelBtn.setOnClickListener { uploadDialog?.dismiss() }
+    }
+
+
+    private fun setWatemark() {
+        //设置 Bitmap 水印 第二个参数如果传 null 那么默认在右下角
+//        live.setWatermark(Watermark(BitmapFactory.decodeResource(resources, R.mipmap.live_logo), null))
+        live.setWatermark(Watermark("DevYK", Color.WHITE, 20, null))
     }
 }

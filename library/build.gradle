@@ -48,20 +48,20 @@ android {
 }
 
 publish {
-    //bintray.com用户名
+    //bintray.com 用户名
     userOrg = 'yangkun19921001'
-    // bintray上仓库的名字
+    // bintray 上仓库的名字
     repoName = 'AVRtmpPushSDK'
-    //jcenter上的路径
+    //jcenter上 的路径
     groupId = 'com.devyk.av.rtmp.library'
     //项目名称
     artifactId = 'AVRtmpPushSDK'
     //版本号
     publishVersion = '1.0.0'// 描述
-    //一般填github 项目地址,一定是要有效的地址
-    desc = '由 Kotlin 、C++ 编写的 rtmp 推流项目'
-    //一般填github 项目地址,一定是要有效的地址
-    website = 'https://github.com/yangkun19921001'
+    //描述
+    desc = '这是一个由 kotlin 、C++ 编写的 RTMP 推流项目'
+    //一般填 github 项目地址,一定是要有效的地址
+    website = 'https://github.com/yangkun19921001/AVRtmpPushSDK'
 }
 
 dependencies {

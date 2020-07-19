@@ -1,5 +1,6 @@
 package com.devyk.av.rtmp.library.utils
 
+import android.os.Build
 import android.util.Log
 import com.devyk.av.rtmp.library.callback.ILog
 
@@ -13,20 +14,28 @@ import com.devyk.av.rtmp.library.callback.ILog
  * </pre>
  */
 public object LogHelper : ILog {
+
+    var isShowLog = false
+
+
     override fun i(tag: String, info: String?) {
-        Log.i(tag,info)
+        if (isShowLog)
+            Log.i(tag, info)
 
     }
 
     override fun e(tag: String, info: String?) {
-        Log.e(tag,info)
+        if (isShowLog)
+            Log.e(tag, info)
     }
 
     override fun w(tag: String, info: String?) {
-        Log.w(tag,info)
+        if (isShowLog)
+            Log.w(tag, info)
     }
 
     override fun d(tag: String, info: String?) {
-        Log.d(tag,info)
+        if (isShowLog)
+            Log.d(tag, info)
     }
 }
